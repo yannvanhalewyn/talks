@@ -1,0 +1,63 @@
+* Ask don't tell (talk idea)
+
+** Comparison with captain.
+
+    Ben orenstein vergeleek het met een kapitein die moet commanderen
+    en niet vragen wat de state van x en y is, maar dat hij zich
+    alleen bezig houd met delegatie. Debunked? een kapitein moet zich
+    juist bezig houden met state om zijn delegaties te
+    coordineren. "Ga links" betekent ga links, niet check of er links
+    geen rotsen zijn en zo niet draai maar naar links. Zo niet
+    verliest de kapitein het overzicht over wat er aan de hand is
+
+** Code example
+
+    Dit zien we zo vaak dat we er over heen lezen. Maar hier staat
+    heel veel informatie. Kijk naar de type van de functie. Door de if
+    statement veranderd de type van socket, de return value, de side
+    effects. Het is helemaal geen socket. Van buitenaf krijg je hier
+    geen informatie van.
+
+    #+BEGIN_SRC ruby
+    module Socket
+      def connect(socket, port)
+        if socket && !socket.connected?
+          socket.connect("localhost", port, "utf-8")
+        end
+      end
+    end
+
+    sock = new Socket(xxx)
+    conn = connect(sock) # Wat gebeurt er? Gat er v
+    do_something_with_conn(conn) # Hebben we wel een connection?
+
+    #+END_SRC
+
+    Praten over hoe voor de lezen van deze call dit obfuscated
+    is. Hangt af van wat je wil. Als je wil dat connect vaker geroepen
+    kan worden heb je WEL en if check nodig (dit is geen rant over if
+    checks), maar op deze manier maak je het type duidelijk. (krijgt
+    altijd een socket, returnt altijd een connection vs krijgt
+    missschien een socket en returnt misschien een conn.
+
+    #+BEGIN_SRC ruby
+    module Socket
+      def connect(socket, port)
+        if socket.connected?
+          socket.connect("localhost", port, "utf-8")
+        else
+          socket.connection
+        end
+      end
+    end
+    #+END_SRC
+
+    En buitenaf een failed connection afhangen:
+
+    #+BEGIN_SRC ruby
+    sock = new Socket(xxx)
+    raise SocketException if !sock # De kapitein beslist over control flow
+    conn = connect(sock) # We zijn zeker dat er een connection is
+    conn = connect(sock) # We kunnen dit zelfs vaker aanroepen om een connection en ensuren
+    do_something_with_conn(conn) # Aye aye captain!
+    #+END_SRC

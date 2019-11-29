@@ -1,0 +1,223 @@
+* Duct (talk idea)
+
+   Ik ga een talk geven over een clojure framework. Maar eigenlijk
+   gaat deze talk over composability, en een Framework die in mijn
+   ogen het goed heeft begrepen. Duct is door de maker van Ring
+   gemaakt, een simpele abstractie (DATA) rond HTTP waarop de hele
+   clojure community is gebouwd (Misschien stats tonen). Korte uitleg
+   over Ring en waarom het zo krachtig is.
+
+** Duct Fender Administrator demo
+
+    Duct is een framework. Het is eigenlijk een configuration
+    framework, die gebouwd is op een configurations framework
+    (Integrant), die afgeleid is van een configuration framework
+    (Component). Fender is een configuration framework gebouwd op
+    Duct. Waarom is dit zo krachtig? Data is composable.
+
+    Toren van composability: een soort lichte pisa toren van drie
+    blokken:
+
+
+    #+BEGIN_SRC ascii
+       +---------+
+       | Objects |
+       +---------+------+
+           | Functions  |
+           +--+---------+-+
+              |   DATA    |
+              +-----------+
+    #+END_SRC
+
+       Objecten zijn inherently on-composebaar Functies kan je
+       composen (higher order functions, modads, ...) maar kan je niet
+       inspecten of manipuleren Data kan alles. (Ring voorbeeld vs
+       Express vs Rack tonen?)
+
+    - Definitie composition: to lay next to. Aantonen dat inheritance
+      en includes het absolute tegenovergestelde is van
+      composability. Misschien even Boyscout voorbeeld van Board en Algorithm.
+
+    - Ring: waarom is het zo'n goeie abstractie? compose, naast
+      leggen. Het abstraheert precies wat het moet: HTTP. Maar het
+      doet NIET MEER dan dat (SRP), en het is open voor
+      composition. Kan je hier Routing mee doen? Jazeker. Logging?
+      Jazeker. Middleware? Jazeker. In Express heb je 'use' nodig, ze
+      moesten een functie schrijven om het met de andere functies te
+      composen. In Ring? Niets nodig. Gewoon de req wrappen.
+
+    - Cognitect bouwt altijd dingen op bestaand techs. Datomic is een
+      waanzinnige database die geen persistence implementatie hieft!
+      Het gebruikt gewoon S3, dynamoDB, h2 of een combinatie ervan als
+      backend. Dat probleem was al opgelost. Clojure is gebouwd op de
+      JVM.
+
+    - Rails. Yes, Rails is split up in a couple of Gems. But splitting
+      it up doesn't make it composable (see definition). It's the same
+      thing, just now you have to look in multiple places. It just
+      spreads out the spaghetti.
+
+    - Talk about stacking frameworks (integrant -> duct -> fender) and
+      how to build powerful things by stacking existing
+      solutions. Talk about how interesting it is in Datamic that it's
+      a database that hasn't implemented storage :D
+
+** From Keep
+
+   Joke:
+
+     "like all clojure developers,
+      I am a pro..
+      at composition
+      Because I...
+      Am a functional god
+      And I...  Understand the true value
+      of just data
+      -- (Slides showing more and more data structures until text
+          is not visible anymore)
+
+   Or do I?
+
+   I have made mistakes. I have built things that should compose but
+   don't. I... Don't understand everything.
+
+   An amazing bhauman idea as an intro. I like to swear. I enjoy it,
+   that's how I talk, that's how I convey depth and intent. Is there
+   anyone in the room that would prefer me not to swear during this talk?
+   I would definitely respect it, bla bla bla, it's a matter of
+   preference. I'm not gonna use crazy graphical foul language, but just
+   the small ones, like shit, crap and a few fucks given. But if even
+   just one person would rather have me not to I'll totally understand
+   and I'll try to keep my mouth clean... (Wait a bit). If nobody minds,
+   I'm just gonna talk however the fuck I want, because I don't see why a
+   bunch of people and me all have to pretend to be somebody else for no
+   fucking good reason, social protocol? Protocols break. (TCP being
+   squished by QUIC, Easter egg joke for http geeks. HAHA LOL).  Then
+   actually have a poll, for show of hands, who would *rather* have me
+   swear?  Then whatever the outcome, just live recompile the slides with
+   a boolean flag and now all the slides have no or a lot of swear
+   words. Intro to configuration over convention. (Wow that is awesome)
+
+   Like take these slides. Do you think I wrote all this crap? Heellll
+   no. The slides are actually a data structure, and a use that data to
+   generate dynamic, animated slides that can do a bunch of cool things
+   like this (jiggle the slide), generate the boring static pdfs for the
+   organizer as well as a markdown write-up of the bullet points.
+
+   Ik ben fucking opninated, dat is geen geheim. Betekent niet dat ik
+   gelijk heb, ik ben alleen niet pretentieus genoeg om politisch correct
+   the blijven.
+
+
+
+   Talk about how macros are semi composable. They're recursive, you can
+   use macros to generate other macros. But a macro has no value, it
+   can't be passed around. You should see macros as a compiler extension,
+   not a tool for abstraction. That's why you should avoid macros if it's
+   not necessary.
+
+   Demo passing a macro as a value.
+
+   If absolutely needed, generate a thin macro as a wrapper, but keep the
+   meat of the implementation in a function. That way, if needed, you can
+   choose to use the function or the pretty macro depending on your need.
+
+   Demo the code to specql, and why it's really great and why you can't
+   use it. Also show the "& body" signature of the macro, and how that
+   sucks. You can't apply a macro. This means you need the schema at
+   compile time. You might think "BUT BUT of course I know my schema at
+   compile time". Yes, and no. There is a schema at compile time, but
+   sometimes you only know it at run time.  Demo compojure and show our
+   routes file.
+
+   Use data to derive logic. Use the example of the boyscout animation
+   speeds. Show a bad example with and inline if check on the speed key,
+   and then show the same code but with the speeds as data and code to
+   use it. Show how you can use the data in both the view and the handler
+   that starts the animation. Show every scenario of change. If the speed
+   changes, the first one changes it inline, the other one in de
+   map. "Yeah but that's basically the same thing right?". Sure, but it's
+   also near at hand, somewhere at the top of the file, or in a config
+   somewhere. Right at the top of the fingertips of the lazy
+   developer. And I am sooo lazy, and so should you. But what if a new
+   button is added?? Then I have to CHANGE CODE. I'm way to lazy to do
+   that. And changing code introduces bugs! And breaks tests! I'm
+   definitely way to lazy for that. Last scenario is: what if the user
+   can configure this? Now I have to throw all this crap away and rewrite
+   for localstorage or something?  Show that you can change the speed
+   while it's running, which is a complex thing to do but trivial with
+   the right setup. Show that even if hot code is reloaded with another
+   speed WHILE THE ANIMATION IS RUNNING, it also works. Talk about
+   stateless hot code reloading. Dit zijn dingen die gewoon vanzelf
+   gebeuren met zo'n aanpak. Dit was helemaal geen requirement, ik heb
+   niet iets in elkaar gehacked om dat te laten werken.
+
+   Tower of composabilty: bewijzen dat data het meest composable is. Van
+   top naar Bottom, met welke dingen kan je elk ding manipuleren? Als je
+   bij data komt: enige wat je niet kan doen is data manipuleren met
+   data. Het heeft geen behavior. Or Kan you? Demo van reader macros in
+   edn, of de #profile Aero reader of #uuid Tower of composability: Push
+   the idea that this isn't a worst to better stack. Every one of them
+   have a ton of pros and cons over the others. This is purely about
+   composition Tower of composabilty: kijk naar de trend van boven naar
+   beneden over de jaren heen. Dat zet je aan het denken: wat is een nog
+   kleinere unit dan data? Wat gaan developers over 5 jaar bedenken. Ik
+   heb hier goed bij stil gestaan, lang nagedacht. En ik heb het:
+   primitives. Het is nog kleiner dan data, granuleerder. Nee tuurlijk
+   niet joh, deze gedachte trein heeft zijn eindstation bereikt (volgens
+   mij). Tenzij je alleen strings wil gebruiken en een brief wil sturen
+   naar de server waarin staat wat je wil dat de app doet. Slide: Brief
+   met "Can you please fix bug? K thx" -- rails heeft dit nooit
+   begrepen. Ze hebben config files, maar deze worden amper gebruikt. De
+   magic word gedreven door meta programmering, wat echt noooog hoger op
+   de toren van composabilty staat. Als macro's minder composable zijn
+   dan functies, is meta programmeren nog minder composable dan classes.
+   Show of hands, wie heeft ooit in productie een rails app gedraaid?
+   Keep hands up: wie van jullie heeft ooit een method call gezien en
+   niet eens kunnen vinden waar de aangeroepte code stond?
+
+   Einde van de talk: eerst praten over Fender.  Tonen dat in een module
+   van 100 regels clojure code en een dagje hacken een hele chunk van
+   rails zit, de hele mvp voor de gem Administrate, en, ik ga iets heel
+   arrogants zeggen het is zelfs objectief beter. Beter omdat je bij
+   rails en administrate op 4 plekken dezelfde dingen moet aanpassen: de
+   router, de views, administrate config. En bij Fender worden die dingen
+   uit de data gehaald. Rails is meer, dit is beter. Punt. Opinions
+   hooooo
+
+   Dan demo met de slotzin: en misschien, heel misschien kan je Rails
+   schrijven in clojure in minder dan 100 regels code. Danku. (Lights
+   out, hold for applause)
+
+
+
+
+
+
+   Abstractie betekent niet dingen wegmoffelen in een module. Het
+   betekent de kenmerkende features extraheren van je systeem, en iets
+   maken dat ALLEEEN daarover gaat, niets anders Geen database, geen side
+   effects, Geen 100 argumenten.
+
+   Org mode, Harvest sync same idea about data
+
+   Make slides using data, write clojure to generate slides, show it
+   off. Show how interesting it is:
+   - I wrote the code once, use it for all my talks
+   - I can edit my slides in my favorite editor
+   - :audience/knows-clojure? true
+   - :audience/knows-rails? false
+   - :slide/audiences #{:audience/knows-rails?}
+
+   Takeaway: in clojure we push the side effects to the edge of our
+   system. We should push the things that can change to the edge to, as
+   data.
+
+
+
+   About multi-methods (tower of composability?): talk about multimethods
+   being useful becuase the offer an abstraction between data and
+   implementation. Example: teccom delivery statuses. Writing this logic
+   in data can't be done or is verbose and complex to support, writing a
+   function can't be done because we are in data land. Writing a key that
+   refers to a multimethod dispatch though, that's the good stuff.
