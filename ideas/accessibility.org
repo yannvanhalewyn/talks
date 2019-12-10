@@ -1,0 +1,4 @@
+Een facebook pagina tonen (of simpeler, BM homepage), html scrapen,
+als platte lijst tonen van alle tekst die er in staat. Dan een
+voorbeeld maken van hoe het eruit ziet als accessible tags gebruikt
+worden en vragen wat mensen het makkelijkst vinden om te begrijpen.
