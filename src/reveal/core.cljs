@@ -32,10 +32,9 @@
   (let [slides (slides/all)]
     (join (map #(html %) slides))))
 
-(defn main
+(defn main!
   "Get all slides, set them as innerHTML and reinitialize Reveal.js"
   []
   (set! (.. (gdom/getElement "slides") -innerHTML) (convert))
   (.initialize js/Reveal options)
   (.setState js/Reveal (.getState js/Reveal)))
-(main)

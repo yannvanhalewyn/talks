@@ -1,0 +1,19 @@
+{:source-paths ["src" "target" "resources" "node_modules"]
+ :dependencies [[org.clojure/core.async "0.4.500"]
+                [hiccups "0.3.0"]
+                [reagent "0.9.0-rc1"]
+
+                ;; Devtools
+                [binaryage/devtools "0.9.10"]
+                [cider/cider-nrepl "0.22.4"]
+                [refactor-nrepl "2.4.0"]]
+ :builds {:dev {:target :browser
+                :output-dir "resources/public/js/app"
+                :devtools {:http-port 8080
+                           :http-root "resources/public"}
+                :asset-path "./js/app"
+                :modules {:main {:init-fn reveal.core/main!}}}
+          :prod {:target :browser
+                 :output-dir "build/js"
+                 :modules {:main {:init-fn reveal.core/main!}}
+                 :compiler-options {:optimizations :advanced}}}}

@@ -39,3 +39,5 @@ compiled
 /.rebel_readline_history
 /resources/public/css
 /.clj-kondo/.cache
+/resources/public/js/
+/.shadow-cljs/
