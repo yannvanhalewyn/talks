@@ -1,4 +1,82 @@
-* Duct (talk idea)
+* Name
+
+  Composition over convention
+
+* Abstract
+
+  We talk about tools and technique a lot. These are essential for us,
+  developers, to do our job. But rarely do we stop and think about the
+  creative process of making software. We all have higher level
+  techniques to build robust systems, but we don't seem to share them
+  all that often. Yann will attempt to bring a few debatable ideas and
+  insights to the table, some coming from his experience being a
+  musician, some from his experience as a developer. Most will be a
+  combination of the two.
+
+  Should you use a macro? A function? A class? A
+  data structure? What when and why? Yann takes a closer look at the
+  differences between these everyday types in terms of how well they
+  compose with one another. He will bring some ideas and debatable
+  opinions to the table, and back them up with good and bad examples
+  found in the wild-wild-west of open source Clojure projects.
+
+* Bio
+
+  Yann Vanhalewyn was on way to becoming a musician, but somewhere
+  along the line got interested in software development. After
+  spending some time learning things from the amazing internet in his
+  student room during his early years as a session musician, he
+  managed to land his first internship at Brightin as a side gig. Now
+  he is working there full time and his primary focus are Brightin's
+  various Clojure projects. Within the company he has been assigned
+  the role of 'coach' because he still enjoys teaching, something he
+  used to do a lot in his early musician years, and also enjoys
+  nagging his collegues about technical nitpicks that come from his
+  perfectionistic personality. He doesn't envision software
+  development as a technical trade but more as an artform where the
+  developer is a creator that makes helpful and beautiful tools for
+  his contemporary humans.
+
+* Talk outline
+** Ice breaker
+
+   - "I'm Yann and someday I would like to have a dog"
+   - Fact ideas:
+     - favorite editor
+     - favorite programming language
+     - daily language
+       Doesn't have to be the same thing, except if you work at
+       Brightin.
+
+** Brightin Plug
+** Should we use rails?
+
+   Segway from Brightin: we used to be a Rails shop
+
+*** Figma graph about development <> joy / complexity
+
+** Composition
+*** Definition
+*** Musician
+*** Tower of composition
+**** Classes / inheritance
+
+     Ruby example
+** Examples in the wild
+*** Compojure vs Reitit
+**** Brightmotive routes
+*** Ring
+*** Duct
+
+    - Made by Weavejester (RING) = understands Data
+
+*** Tailwind
+*** Specql
+*** RAD
+*** My own slides!
+** Back to rails: Duct fender!
+
+* Unstructured notes
 
    Ik ga een talk geven over een clojure framework. Maar eigenlijk
    gaat deze talk over composability, en een Framework die in mijn
@@ -62,162 +140,315 @@
       solutions. Talk about how interesting it is in Datamic that it's
       a database that hasn't implemented storage :D
 
+** Demonstrate tailwind system and animation plugin
 ** From Keep
 
-   Joke:
+    New: So I am terrified. I a newbie, 4 years experience, I have given
+    some talks before about like a tool, a technique that smarter people
+    than me have fabricated. This is the first time I'm gonna give a talk
+    about my own ideas. We'll see how this goes. I hope it goes really
+    bad, I hope I say a bunch of stupid crap. That way I can learn
+    something.
 
-     "like all clojure developers,
-      I am a pro..
-      at composition
-      Because I...
-      Am a functional god
-      And I...  Understand the true value
-      of just data
-      -- (Slides showing more and more data structures until text
-          is not visible anymore)
+    Part about Brightin: show a graph of brezan online sales, show that
+    before 92% of sales was done over the phone. Show that that's about a
+    couple of million euros every week being transacted via a telephone
 
-   Or do I?
+    Hi, I'm.yann. I've been working here for 3.87 years.  Make sure this
+    is calculated based on a start date and t/now, to show how I
 
-   I have made mistakes. I have built things that should compose but
-   don't. I... Don't understand everything.
+    Brightmotive: (mechanic) let's call him Frank. Frank is a
+    mechanic. Frank doesn't give a damn if we used transducers over
+    threading to stream his data a bit faster. Frank just wants to find
+    car parts. And Frank, a year ago, was forced to use this: Aldoc. Now,
+    thanks to brightmotive, he uses this: Brightmotive. This is what
+    Brightin is about.  And not only is this prettier, we actually used
+    transducers to stream his data.
 
-   An amazing bhauman idea as an intro. I like to swear. I enjoy it,
-   that's how I talk, that's how I convey depth and intent. Is there
-   anyone in the room that would prefer me not to swear during this talk?
-   I would definitely respect it, bla bla bla, it's a matter of
-   preference. I'm not gonna use crazy graphical foul language, but just
-   the small ones, like shit, crap and a few fucks given. But if even
-   just one person would rather have me not to I'll totally understand
-   and I'll try to keep my mouth clean... (Wait a bit). If nobody minds,
-   I'm just gonna talk however the fuck I want, because I don't see why a
-   bunch of people and me all have to pretend to be somebody else for no
-   fucking good reason, social protocol? Protocols break. (TCP being
-   squished by QUIC, Easter egg joke for http geeks. HAHA LOL).  Then
-   actually have a poll, for show of hands, who would *rather* have me
-   swear?  Then whatever the outcome, just live recompile the slides with
-   a boolean flag and now all the slides have no or a lot of swear
-   words. Intro to configuration over convention. (Wow that is awesome)
+    I believe that if you have solution x, and solution y, and both are
+    made with composability in mind, you can achieve x*y. If they aren't,
+    you have to choose. The gap between the two is incredible.
 
-   Like take these slides. Do you think I wrote all this crap? Heellll
-   no. The slides are actually a data structure, and a use that data to
-   generate dynamic, animated slides that can do a bunch of cool things
-   like this (jiggle the slide), generate the boring static pdfs for the
-   organizer as well as a markdown write-up of the bullet points.
+    Joke: like all clojure developers, I am a pro..  at composition
+    Because I...  Am a functional god And I...  Understand the true value
+    of just data (Slides showing more and more data structures until text
+    is not visible anymore)
 
-   Ik ben fucking opninated, dat is geen geheim. Betekent niet dat ik
-   gelijk heb, ik ben alleen niet pretentieus genoeg om politisch correct
-   the blijven.
+    Or do I?
 
+    I have made mistakes. I have built things that should compose but
+    don't. I... Don't understand everything.
 
+    An amazing bhauman idea as an intro. I like to swear. I enjoy it,
+    that's how I talk, that's how I convey depth and intent. Is there
+    anyone in the room that would prefer me not to swear during this talk?
+    I would definitely respect it, bla bla bla, it's a matter of
+    preference. I'm not gonna use crazy graphical foul language, but just
+    the small ones, like shit, crap and a few fucks given. But if even
+    just one person would rather have me not to I'll totally understand
+    and I'll try to keep my mouth clean... (Wait a bit). If nobody minds,
+    I'm just gonna talk however the fuck I want, because I don't see why a
+    bunch of people and me all have to pretend to be somebody else for no
+    fucking good reason, social protocol? Protocols break. (TCP being
+    squished by QUIC, Easter egg joke for http geeks. HAHA LOL).  Then
+    actually have a poll, for show of hands, who would *rather* have me
+    swear?  Then whatever the outcome, just live recompile the slides with
+    a boolean flag and now all the slides have no or a lot of swear
+    words. Intro to configuration over convention. (Wow that is awesome)
 
-   Talk about how macros are semi composable. They're recursive, you can
-   use macros to generate other macros. But a macro has no value, it
-   can't be passed around. You should see macros as a compiler extension,
-   not a tool for abstraction. That's why you should avoid macros if it's
-   not necessary.
+    Like take these slides. Do you think I wrote all this crap? Heellll
+    no. The slides are actually a data structure, and a use that data to
+    generate dynamic, animated slides that can do a bunch of cool things
+    like this (jiggle the slide), generate the boring static pdfs for the
+    organizer as well as a markdown write-up of the bullet points.
 
-   Demo passing a macro as a value.
-
-   If absolutely needed, generate a thin macro as a wrapper, but keep the
-   meat of the implementation in a function. That way, if needed, you can
-   choose to use the function or the pretty macro depending on your need.
-
-   Demo the code to specql, and why it's really great and why you can't
-   use it. Also show the "& body" signature of the macro, and how that
-   sucks. You can't apply a macro. This means you need the schema at
-   compile time. You might think "BUT BUT of course I know my schema at
-   compile time". Yes, and no. There is a schema at compile time, but
-   sometimes you only know it at run time.  Demo compojure and show our
-   routes file.
-
-   Use data to derive logic. Use the example of the boyscout animation
-   speeds. Show a bad example with and inline if check on the speed key,
-   and then show the same code but with the speeds as data and code to
-   use it. Show how you can use the data in both the view and the handler
-   that starts the animation. Show every scenario of change. If the speed
-   changes, the first one changes it inline, the other one in de
-   map. "Yeah but that's basically the same thing right?". Sure, but it's
-   also near at hand, somewhere at the top of the file, or in a config
-   somewhere. Right at the top of the fingertips of the lazy
-   developer. And I am sooo lazy, and so should you. But what if a new
-   button is added?? Then I have to CHANGE CODE. I'm way to lazy to do
-   that. And changing code introduces bugs! And breaks tests! I'm
-   definitely way to lazy for that. Last scenario is: what if the user
-   can configure this? Now I have to throw all this crap away and rewrite
-   for localstorage or something?  Show that you can change the speed
-   while it's running, which is a complex thing to do but trivial with
-   the right setup. Show that even if hot code is reloaded with another
-   speed WHILE THE ANIMATION IS RUNNING, it also works. Talk about
-   stateless hot code reloading. Dit zijn dingen die gewoon vanzelf
-   gebeuren met zo'n aanpak. Dit was helemaal geen requirement, ik heb
-   niet iets in elkaar gehacked om dat te laten werken.
-
-   Tower of composabilty: bewijzen dat data het meest composable is. Van
-   top naar Bottom, met welke dingen kan je elk ding manipuleren? Als je
-   bij data komt: enige wat je niet kan doen is data manipuleren met
-   data. Het heeft geen behavior. Or Kan you? Demo van reader macros in
-   edn, of de #profile Aero reader of #uuid Tower of composability: Push
-   the idea that this isn't a worst to better stack. Every one of them
-   have a ton of pros and cons over the others. This is purely about
-   composition Tower of composabilty: kijk naar de trend van boven naar
-   beneden over de jaren heen. Dat zet je aan het denken: wat is een nog
-   kleinere unit dan data? Wat gaan developers over 5 jaar bedenken. Ik
-   heb hier goed bij stil gestaan, lang nagedacht. En ik heb het:
-   primitives. Het is nog kleiner dan data, granuleerder. Nee tuurlijk
-   niet joh, deze gedachte trein heeft zijn eindstation bereikt (volgens
-   mij). Tenzij je alleen strings wil gebruiken en een brief wil sturen
-   naar de server waarin staat wat je wil dat de app doet. Slide: Brief
-   met "Can you please fix bug? K thx" -- rails heeft dit nooit
-   begrepen. Ze hebben config files, maar deze worden amper gebruikt. De
-   magic word gedreven door meta programmering, wat echt noooog hoger op
-   de toren van composabilty staat. Als macro's minder composable zijn
-   dan functies, is meta programmeren nog minder composable dan classes.
-   Show of hands, wie heeft ooit in productie een rails app gedraaid?
-   Keep hands up: wie van jullie heeft ooit een method call gezien en
-   niet eens kunnen vinden waar de aangeroepte code stond?
-
-   Einde van de talk: eerst praten over Fender.  Tonen dat in een module
-   van 100 regels clojure code en een dagje hacken een hele chunk van
-   rails zit, de hele mvp voor de gem Administrate, en, ik ga iets heel
-   arrogants zeggen het is zelfs objectief beter. Beter omdat je bij
-   rails en administrate op 4 plekken dezelfde dingen moet aanpassen: de
-   router, de views, administrate config. En bij Fender worden die dingen
-   uit de data gehaald. Rails is meer, dit is beter. Punt. Opinions
-   hooooo
-
-   Dan demo met de slotzin: en misschien, heel misschien kan je Rails
-   schrijven in clojure in minder dan 100 regels code. Danku. (Lights
-   out, hold for applause)
+    Ik ben fucking opninated, dat is geen geheim. Betekent niet dat ik
+    gelijk heb, ik ben alleen niet pretentieus genoeg om politisch correct
+    the blijven.
 
 
+    Talk about how macros are semi composable. They're recursive, you can
+    use macros to generate other macros. But a macro has no value, it
+    can't be passed around. You should see macros as a compiler extension,
+    not a tool for abstraction. That's why you should avoid macros if it's
+    not necessary.
+
+    Demo passing a macro as a value.
+
+    If absolutely needed, generate a thin macro as a wrapper, but keep the
+    meat of the implementation in a function. That way, if needed, you can
+    choose to use the function or the pretty macro depending on your need.
+
+    Demo the code to specql, and why it's really great and why you can't
+    use it. Also show the "& body" signature of the macro, and how that
+    sucks. You can't apply a macro. This means you need the schema at
+    compile time. You might think "BUT BUT of course I know my schema at
+    compile time". Yes, and no. There is a schema at compile time, but
+    sometimes you only know it at run time.  Demo compojure and show our
+    routes file.
+
+    Use data to derive logic. Use the example of the boyscout animation
+    speeds. Show a bad example with and inline if check on the speed key,
+    and then show the same code but with the speeds as data and code to
+    use it. Show how you can use the data in both the view and the handler
+    that starts the animation. Show every scenario of change. If the speed
+    changes, the first one changes it inline, the other one in de
+    map. "Yeah but that's basically the same thing right?". Sure, but it's
+    also near at hand, somewhere at the top of the file, or in a config
+    somewhere. Right at the top of the fingertips of the lazy
+    developer. And I am sooo lazy, and so should you. But what if a new
+    button is added?? Then I have to CHANGE CODE. I'm way to lazy to do
+    that. And changing code introduces bugs! And breaks tests! I'm
+    definitely way to lazy for that. Last scenario is: what if the user
+    can configure this? Now I have to throw all this crap away and rewrite
+    for localstorage or something?  Show that you can change the speed
+    while it's running, which is a complex thing to do but trivial with
+    the right setup. Show that even if hot code is reloaded with another
+    speed WHILE THE ANIMATION IS RUNNING, it also works. Talk about
+    stateless hot code reloading. Dit zijn dingen die gewoon vanzelf
+    gebeuren met zo'n aanpak. Dit was helemaal geen requirement, ik heb
+    niet iets in elkaar gehacked om dat te laten werken.
+
+    Tower of composabilty: bewijzen dat data het meest composable is. Van
+    top naar Bottom, met welke dingen kan je elk ding manipuleren? Als je
+    bij data komt: enige wat je niet kan doen is data manipuleren met
+    data. Het heeft geen behavior. Or Kan you? Demo van reader macros in
+    edn, of de #profile Aero reader of #uuid Tower of composability: Push
+    the idea that this isn't a worst to better stack. Every one of them
+    have a ton of pros and cons over the others. This is purely about
+    composition Tower of composabilty: kijk naar de trend van boven naar
+    beneden over de jaren heen. Dat zet je aan het denken: wat is een nog
+    kleinere unit dan data? Wat gaan developers over 5 jaar bedenken. Ik
+    heb hier goed bij stil gestaan, lang nagedacht. En ik heb het:
+    primitives. Het is nog kleiner dan data, granuleerder. Nee tuurlijk
+    niet joh, deze gedachte trein heeft zijn eindstation bereikt (volgens
+    mij). Tenzij je alleen strings wil gebruiken en een brief wil sturen
+    naar de server waarin staat wat je wil dat de app doet. Slide: Brief
+    met "Can you please fix bug? K thx" -- rails heeft dit nooit
+    begrepen. Ze hebben config files, maar deze worden amper gebruikt. De
+    magic word gedreven door meta programmering, wat echt noooog hoger op
+    de toren van composabilty staat. Als macro's minder composable zijn
+    dan functies, is meta programmeren nog minder composable dan classes.
+    Show of hands, wie heeft ooit in productie een rails app gedraaid?
+    Keep hands up: wie van jullie heeft ooit een method call gezien en
+    niet eens kunnen vinden waar de aangeroepte code stond?
+
+    Einde van de talk: eerst praten over Fender.  Tonen dat in een module
+    van 100 regels clojure code en een dagje hacken een hele chunk van
+    rails zit, de hele mvp voor de gem Administrate, en, ik ga iets heel
+    arrogants zeggen het is zelfs objectief beter. Beter omdat je bij
+    rails en administrate op 4 plekken dezelfde dingen moet aanpassen: de
+    router, de views, administrate config. En bij Fender worden die dingen
+    uit de data gehaald. Rails is meer, dit is beter. Punt. Opinions
+    hooooo
+
+    Dan demo met de slotzin: en misschien, heel misschien kan je Rails
+    schrijven in clojure in minder dan 100 regels code. Danku. (Lights
+    out, hold for applause)
 
 
+    Abstractie betekent niet dingen wegmoffelen in een module. Het
+    betekent de kenmerkende features extraheren van je systeem, en iets
+    maken dat ALLEEEN daarover gaat, niets anders Geen database, geen side
+    effects, Geen 100 argumenten.
 
+    Org mode, Harvest sync same idea about data
 
-   Abstractie betekent niet dingen wegmoffelen in een module. Het
-   betekent de kenmerkende features extraheren van je systeem, en iets
-   maken dat ALLEEEN daarover gaat, niets anders Geen database, geen side
-   effects, Geen 100 argumenten.
+    Make slides using data, write clojure to generate slides, show it
+    off. Show how interesting it is:
+    - I wrote the code once, use it for all my talks
+    - I can edit my slides in my favorite editor
+    - :audience/knows-clojure? true
+    - :audience/knows-rails? false
+    - :slide/audiences #{:audience/knows-rails?}
 
-   Org mode, Harvest sync same idea about data
+    Takeaway: in clojure we push the side effects to the edge of our
+    system. We should push the things that can change to the edge to, as
+    data.
 
-   Make slides using data, write clojure to generate slides, show it
-   off. Show how interesting it is:
-   - I wrote the code once, use it for all my talks
-   - I can edit my slides in my favorite editor
-   - :audience/knows-clojure? true
-   - :audience/knows-rails? false
-   - :slide/audiences #{:audience/knows-rails?}
+    About multi-methods (tower of composability?): talk about multimethods
+ being useful becuase the offer an abstraction between data and
+ implementation. Example: teccom delivery statuses. Writing this logic
+ in data can't be done or is verbose and complex to support, writing a
+ function can't be done because we are in data land. Writing a key that
+ refers to a multimethod dispatch though, that's the good stuff.
 
-   Takeaway: in clojure we push the side effects to the edge of our
-   system. We should push the things that can change to the edge to, as
-   data.
+** Music
+*** Composition vs arrangement
 
+   show off composition in music: to place next to eachother
 
+   I'm also a musician. This is me brutally abusing my best friend
+   Josephine, my Telecaster. We have a special relationship like that:
+   https://youtu.be/b4L0qv7FPqs?t=230
 
-   About multi-methods (tower of composability?): talk about multimethods
-   being useful becuase the offer an abstraction between data and
-   implementation. Example: teccom delivery statuses. Writing this logic
-   in data can't be done or is verbose and complex to support, writing a
-   function can't be done because we are in data land. Writing a key that
-   refers to a multimethod dispatch though, that's the good stuff.
+  This.. is so much fun Declare that composition is very different
+  than arrangement, but both are needed to create a result that can be
+  recorded, heard. The composition is the conceptual stage: you place
+  different musical elements together - some chords, a melody, a
+  groove. This can be written down in a single page, and can vary from a
+  couple of seconds to minutes of music.
+
+  Arrangement is taking a composition and arranging it over a logical
+  song (intro, verse, chorus). It's the what when and where. This
+  actually requires less creativity than you think and can be achieved
+  using some simple principles and concepts. I was a session musician,
+  this was the field I was good at. <explain>
+
+  In music you use both to create sometimes mesmerizing results. The
+  best songs are the ones that are made up of composable parts, where
+  the arranger has loads of freedom to play with how elements come and
+  go throughout the song. Songs made up of static and rigid
+  composition parts are way harder to arrange, and often end up
+  crashing and burning when attempting to improve on. See complex
+  software systems.
+
+  The music industry acknowledges these differences. Royalties are
+  actually split up into writing (lyrics, tekst), composition and
+  arrangement. I actually still receive, to
+
+  I think we as software engineers should think about making good
+  software this way. To differentiate between these two. We are all
+  some kind of artists in the end.
+
+  Show that git plumbing and git porcelain are like the composition
+  and arrangement.
+
+    - Git plumbing: the unpolished demo with all the features the song
+      will have.
+    - Git porcelain: the finished arranged, mixed and mastered track
+      meant for the fans and audiophiles.
+
+  Extensions to software should work like remixes. If the composition
+  is good, chances are a DJ's remix will be great, because he can use
+  a bunch of composable items again and rearrange them. Remixing is a
+  form of second arrangement. Git is so great also because it has a
+  Plumbing that external tools can leveragen and thus "remix" git into
+  something else if so desired.
+
+  > The only beings capable of creating something of value out of
+  nothing are either a God or an artist.
+
+  So either we're gonna take the modest route and call ourselves "GODS
+  OF THE TECHNOLOGICAL UNIVERSE", or we should accept the fact that we
+  are artists. Therefore we should also think about the creative
+  process of making good software, not just the practical side. There
+  are a lot of talks about tools and techniques. This is of course
+  important, and essential for us to do our jobs. We even have Michiel
+  Borkent here, he makes a shitload of amazing open source tools and
+  talks about them. Shoutout to Kondo, Babashka and Jet. But we rarely
+  talk about the creative process. So if there's one takeaway: you are
+  all artists, and you should think about the composition and
+  arrangement of your creations thoroughly and separately. I feel like
+  Clojure is an amazing language and eco-system to achieve this, in
+  functional world we build complex stuff out of small understandable
+  pieces. I'm sure most of you already know or do this. I'm merely
+  trying to make this explicit knowledge instead of implicit
+  knowledge. This should be something we talk about more.
+
+** Inheritance
+
+   There is a bit of a conflict between PC and freedom of speech. I
+   tend a bit more towards the latter. So I'm gonna say: I think
+   inheritance is dumb. I think it doesn't offer good abstraction, it's
+   not composable, it's confusing, it's hard to teach. It's hard to
+   teach.. Should we use things that are hard to teach? Can't we just
+   use simple ideas? Change my mind.
+
+   #+BEGIN_SRC ruby
+   class MyHairball
+     include HairballOne
+     include HairballTwo
+   end
+   #+END_SRC
+
+   Putting stuff away in a module isn't abstraction, isn't composable
+   by definition. It just means now I have to look through multiple
+   files to find some crap instead of one.
+
+   This is complecting. Now MyHairball does all the things a hairball
+   does, but also does all the things HairballOne and HairballTwo do,
+   and I have absolutely no clue what is being done by who.
+
+   #+BEGIN_SRC ruby
+   # Where is do_something defined??
+   MyHairball.new.do_the_thing
+   #+END_SRC
+
+   #+BEGIN_SRC ruby
+   class MyClass
+     ...
+   end
+
+   module MyConcern
+     ...
+   end
+
+   # I completely understand the separation of concerns
+   MyConcern.do_the_thing_with(MyClass.new)
+   #+END_SRC
+
+   No complection, life's too short for it.
+
+   You do have the problem of connaissance, like Jim Weirich (RIP) used
+   to say. If this is something you fear, use an adapter of some sorts
+   as a composition bridge.
+
+   #+BEGIN_SRC ruby
+   concern_widget = MyClassConcernBridge.new(MyClass.new)
+   MyConcern.do_the_thing_with(concern_widget)
+   #+END_SRC
+
+   Now MyClass and MyConcern are free to move independently, and when
+   either does you just need to bridge the gap, which is way easier
+   than shoving a square peg in a circle. Now we don't have to choose
+   between X or Y, we can unleash the power of X*Y!
+
+** Multi-level entry points in libraries
+
+   Rails offers you this (the very top of the abstraction tree). Git
+   offers you many ways, Plumbing vs Porcelain. Think when making a
+   library in terms of plumbing, but offer a porcelain around it for
+   the 90% use-case. People using your library are smart, they should
+   be able to decide which level fits their needs. The plumbing should
+   also be documented and maintained just as much as the porcelain.
