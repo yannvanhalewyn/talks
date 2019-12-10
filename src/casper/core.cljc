@@ -6,19 +6,20 @@
 (defn- transition [slide transition]
   (assoc-in slide [:slide/section :data-transition] transition))
 
-(defn- make-slide* [{:keys [background]} & body]
+(defn- make-slide* [{:keys [class]} & body]
   #:slide {:body (into [:div.text-center] body)
-           :section {:data-background background
-                     :style "padding:10vmin"}})
+           :section {:style "padding:10vmin"
+                     :class class}})
 
 (defn- render [{:slide/keys [body section hide-logo?]}]
-  [:section.flex.flex-col.justify-between.h-full.text-left
-   section
+  [:section
+   (update section
+     :class str " flex flex-col justify-between h-full text-left")
    (when-not hide-logo?
      [:strong "brightin"])
    body
    (when-not hide-logo?
-     [:div.text-xs.text-right.text-black.italic
+     [:div.text-xs.text-right.italic
       "Yann Vanhalewyn"])])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

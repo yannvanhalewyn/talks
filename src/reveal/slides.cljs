@@ -1,5 +1,6 @@
 (ns reveal.slides
-  (:require [casper.core :as casper :refer-macros [defslide]]))
+  (:require [casper.core :as casper :refer-macros [defslide]]
+            [clojure.string :as str]))
 
 (defn- welcome [& children]
   [:div
@@ -32,10 +33,20 @@
    [:p.mt-2 "With " [:span.text-orange-600 "beautiful"] " software"]))
 
 (defslide asylum {:hide-logo? true
-                  :background "black"}
+                  :class "bg-black text-white"}
   [:video.absolute.inset-0.h-full.w-full
    {:src "./img/asylum_snippet.mp4"
     :controls true}])
+
+(defslide code-slide {}
+  [:pre.text-left.px-24
+   [:code.ruby.p-4.rounded-lg
+    (str/trim "
+class MyHairball
+  include HairballOne
+  include HairballTwo
+end
+")]])
 
 (defslide composition {}
   [:div
@@ -53,5 +64,7 @@
     (casper/transition-group
      ["none none-out" "none" "none none-in"]
      [brightin-1 brightin-2 brightin-3 brightin-4])
+    composition
+    code-slide
     asylum
     thanks]))
