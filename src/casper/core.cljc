@@ -4,7 +4,7 @@
 ;; Helpers
 
 (defn- transition [slide transition]
-  (assoc-in slide [:slide/section :data-transition] transition))
+  (assoc-in slide [:slide/section-props :data-transition] transition))
 
 (defn- make-slide* [{:keys [class background-image hide-logo?]} & body]
   #:slide {:body (into [:div.text-center] body)
@@ -13,6 +13,7 @@
                            :data-background-image background-image}})
 
 (defn- render [{:slide/keys [body section-props hide-logo?]}]
+  #?(:cljs (.log js/console section-props))
   [:section.flex.flex-col.justify-between.h-full.text-left
    (merge {:style {:padding "10vmin"}} section-props)
    (if hide-logo?
@@ -26,12 +27,25 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Public
 
+(defn colorize [& segments]
+  (into [:span]
+        (for [s segments]
+          (if (sequential? s)
+            [:span {:class (str "text-" (name (second s)))}
+             (first s)]
+            s))))
+
+(defn enumeration [& items]
+  (into [:ul.w-32.mx-auto.mt-8.text-lg.text-left.text-gray-800]
+        (for [i items]
+          [:li.fragment.fade-in i])))
+
 (defn transition-group [[in during out] [first & others]]
   (let [middle (butlast others)
         end    (last others)]
-    [(transition first (str in " " during "-out" " "))
+    [(transition first (str in "-in " during "-out"))
      (map #(transition % during) middle)
-     (transition end (str during "-in " out " "))]))
+     (transition end (str during "-in " out "-out"))]))
 
 (defn render-slides [slides]
   (for [slide (flatten slides)]

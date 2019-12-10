@@ -2,13 +2,8 @@
   (:require
    #?(:clj  [casper.core :as casper :refer [defslide]]
       :cljs [casper.core :as casper :refer-macros [defslide]])
+   [talks.brightin :as brightin]
    [clojure.string :as str]))
-
-(defn- welcome [& children]
-  [:div
-   [:p.text-gray-800 "Welcome to"]
-   [:h1.title "brightin"]
-   (into [:div.mt-4] children)])
 
 (defn- code [opts code]
   (let [{:keys [lang class]} (if (keyword? opts)
@@ -24,30 +19,6 @@
    [:span.text-blue-600 "Composition"]
    " over "
    [:span.text-red-600 "Convention"]])
-
-(defslide brightin-1 {}
-  (welcome [:span "."]))
-
-(defslide brightin-2 {}
-  (welcome "we make software"))
-
-(defslide brightin-3 {}
-  (welcome
-   "we make " [:span.text-orange-600 "beautiful"]
-   " software"))
-
-(defslide brightin-4 {}
-  (welcome
-   [:p "we make " [:span.text-blue-600 "peope"] " happy "]
-   [:p.mt-1 "with " [:span.text-orange-600 "beautiful"] " software"]))
-
-(def brightin-plug
-  (casper/transition-group
-   ["slide-in" "none" "slide-out"]
-   [brightin-1 brightin-2 brightin-3 brightin-4]))
-
-(defslide brightmotive-1 {:background-image "./img/mechanic.webp"
-                          :hide-logo? true})
 
 (defslide asylum {:hide-logo? true
                   :class "bg-black text-white"}
@@ -94,11 +65,11 @@ end
   []
   (casper/render-slides
    [title
-    brightin-plug
+    brightin/plug
+    brightin/brightmotive-intro
     (casper/transition-group
      ["none" "none" "none"]
      [composition-1 composition-2 composition-3])
     code-slide
-    brightmotive-1
     asylum
     thanks]))
