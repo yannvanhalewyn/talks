@@ -2,17 +2,25 @@
   (:require-macros [hiccups.core :as hiccups :refer [html]])
   (:require [clojure.string :refer [join]]
             [goog.dom :as gdom]
-            [hiccups.runtime :as hiccupsrt]
+            [hiccups.runtime]
             [reveal.slides :as slides]))
 
 
-;; When changing comments, you manually need to refresh your browser
-(def options (clj->js {:controls    true
-                       :progress    true
-                       :transition  "fade"                    ; e.g. none/fade/slide/convex/concave/zoom
-                       :slideNumber false
-                       :dependencies [{:src "node_modules/reveal.js/plugin/notes/notes.js"
-                                       :async true}]}))
+(def options
+  (clj->js {:controls    false
+            :controlsTutorial true
+            :progress    false
+            :transition  "slide"
+            :hash true
+            :width "100%"
+            :height "100%"
+            :margin 0
+            :minScale 1
+            :maxScale 1
+            :slideNumber false
+            :center false
+            :dependencies [{:src "node_modules/reveal.js/plugin/notes/notes.js"
+                            :async true}]}))
 
 
 ;; -----------------------------------------------------------------------------
