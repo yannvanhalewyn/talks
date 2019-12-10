@@ -1,10 +1,14 @@
 (ns reveal.core
-  (:require-macros [hiccups.core :as hiccups :refer [html]])
+  (:require-macros [hiccups.core :as h])
   (:require [clojure.string :as str]
             [goog.dom :as gdom]
             [hiccups.runtime]
             [reveal.slides :as slides]
-            ["reveal.js" :as reveal]))
+            ["reveal" :as reveal]))
+
+(defn highlight! []
+  (.forEach (.querySelectorAll js/document "pre code")
+            #(.highlightBlock js/hljs %)))
 
 (def options
   (clj->js {:controls         false
@@ -23,18 +27,17 @@
             :dependencies
             [{:src "https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/highlight/highlight.js"
               :async true
-              :callback (fn [] (.initHighlightingOnLoad js/hljs))}
-             {:src "https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js"
+              :callback highlight!}
+             {:src "node_modules/reveal.js/plugin/notes/notes.js"
               :async true}]}))
 
-(defn convert
-  "Get list of all slides and convert them to html strings."
-  []
-  (let [slides (slides/all)]
-    (str/join (map #(html %) slides))))
+(defn convert [slides]
+  (str/join (map #(h/html %) slides)))
 
 (defn ^:dev/after-load main!
   "Get all slides, set them as innerHTML and reinitialize Reveal.js"
   []
-  (set! (.. (gdom/getElement "slides") -innerHTML) (convert))
-  (reveal/initialize options))
+  (set! (.. (gdom/getElement "slides") -innerHTML)
+        (convert (slides/all)))
+  (reveal/initialize options)
+  (highlight!))

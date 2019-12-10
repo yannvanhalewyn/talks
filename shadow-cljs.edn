@@ -11,6 +11,8 @@
                 :output-dir "resources/public/js/app"
                 :devtools {:http-port 8080
                            :http-root "resources/public"}
+                :js-options {:resolve {"reveal" {:target :global
+                                                 :global "Reveal"}}}
                 :asset-path "./js/app"
                 :modules {:main {:init-fn reveal.core/main!}}}
           :prod {:target :browser
