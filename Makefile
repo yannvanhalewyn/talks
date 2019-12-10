@@ -1,3 +1,6 @@
+CSS_SRC    := resources/main.css
+CSS_TARGET := resources/public/css/main.css
+
 run: install repl
 
 install:
@@ -20,6 +23,13 @@ web: install
 	@echo ":: Copy generated assets to resources-folder"
 	cp target/public/cljs-out/dev-main.js resources/public/cljs-out
 	@echo ":: Now open 'resources/public/index.html' to find the presentation"
+
+$(CSS_TARGET): $(CSS_SRC)
+	npx tailwindcss build $^ -o $@
+
+css: $(CSS_TARGET)
+css-watch:
+	fsevent_watch -F  | xargs -I{} make $(CSS_TARGET)
 
 ancient:
 	@echo ":: Check for old dependencies"

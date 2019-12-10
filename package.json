@@ -4,9 +4,9 @@
   "description": "A ClojureScript wrapper for reveal.js",
   "main": "reveal.core",
   "dependencies": {
-    "reveal.js": "hakimel/reveal.js#3.8.0"
+    "reveal.js": "hakimel/reveal.js#3.8.0",
+    "tailwindcss": "^1.1.4"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git@github.com:n2o/reveal-cljs.git"
