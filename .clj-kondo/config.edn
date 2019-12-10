@@ -1,0 +1,1 @@
+{:lint-as {casper.core/defslide clojure.core/def}}
