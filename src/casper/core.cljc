@@ -6,21 +6,22 @@
 (defn- transition [slide transition]
   (assoc-in slide [:slide/section :data-transition] transition))
 
-(defn- make-slide* [{:keys [class]} & body]
+(defn- make-slide* [{:keys [class background-image hide-logo?]} & body]
   #:slide {:body (into [:div.text-center] body)
-           :section {:style "padding:10vmin"
-                     :class class}})
+           :hide-logo? hide-logo?
+           :section-props {:class class
+                           :data-background-image background-image}})
 
-(defn- render [{:slide/keys [body section hide-logo?]}]
-  [:section
-   (update section
-     :class str " flex flex-col justify-between h-full text-left")
-   (when-not hide-logo?
-     [:strong "brightin"])
-   body
-   (when-not hide-logo?
-     [:div.text-xs.text-right.italic
-      "Yann Vanhalewyn"])])
+(defn- render [{:slide/keys [body section-props hide-logo?]}]
+  [:section.flex.flex-col.justify-between.h-full.text-left
+   (merge {:style {:padding "10vmin"}} section-props)
+   (if hide-logo?
+     body
+     [:<>
+      [:strong "brightin"]
+      body
+      [:div.text-xs.text-right.italic
+       "Yann Vanhalewyn"]])])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Public

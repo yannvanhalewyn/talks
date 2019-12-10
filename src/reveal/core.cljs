@@ -1,7 +1,7 @@
 (ns reveal.core
   (:require [goog.dom :as gdom]
-            [reveal.slides :as slides]
-            ["reveal" :as reveal]
+            [talks.composition :as composition]
+            [reveal]
             [reagent.core :as r]))
 
 (defn highlight! []
@@ -30,7 +30,7 @@
               :async true}]}))
 
 (defn- render! []
-  (r/render (into [:<>] (slides/all))
+  (r/render (into [:<>] (composition/slides))
     (gdom/getElement "slides")))
 
 (defn ^:dev/after-load main! []
