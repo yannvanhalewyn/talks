@@ -12,13 +12,13 @@
                      :style "padding:10vmin"}})
 
 (defn- render [{:slide/keys [body section hide-logo?]}]
-  [:section.flex.flex-col.justify-between.h-full.text-left.text-5xl
+  [:section.flex.flex-col.justify-between.h-full.text-left
    section
    (when-not hide-logo?
      [:strong "brightin"])
    body
    (when-not hide-logo?
-     [:div.text-3xl.text-right.text-black.italic
+     [:div.text-xs.text-right.text-black.italic
       "Yann Vanhalewyn"])])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

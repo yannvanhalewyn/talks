@@ -3,10 +3,10 @@
 
 (defn- welcome [& children]
   [:div
-   [:p.text-3xl.text-gray-800 "Welcome to"]
+   [:p.text-gray-800 "Welcome to"]
    [:h1.title "brightin"]
    (into
-    [:div.mt-8
+    [:div.mt-4
      children])])
 
 (defslide title {}
@@ -29,7 +29,7 @@
 (defslide brightin-4 {}
   (welcome
    [:p "We like to make " [:span.text-blue-600 "people"] " happy "]
-   [:p.mt-4 "With " [:span.text-orange-600 "beautiful"] " software"]))
+   [:p.mt-2 "With " [:span.text-orange-600 "beautiful"] " software"]))
 
 (defslide asylum {:hide-logo? true
                   :background "black"}

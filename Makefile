@@ -25,7 +25,7 @@ web: install
 	@echo ":: Now open 'resources/public/index.html' to find the presentation"
 
 $(CSS_TARGET): $(CSS_SRC)
-	npx tailwindcss build $^ -o $@
+	npx tailwind build $^ -o $@
 
 css: $(CSS_TARGET)
 css-watch:
