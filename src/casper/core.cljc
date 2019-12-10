@@ -39,4 +39,5 @@
 
 #?(:clj
    (defmacro defslide [name opts & body]
-     `(def ~name ~(apply make-slide* opts body))))
+     (let [opts (assoc opts :slide/key name)]
+       `(def ~name ~(apply make-slide* opts body)))))

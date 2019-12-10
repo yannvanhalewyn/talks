@@ -1,10 +1,8 @@
 (ns reveal.core
-  (:require-macros [hiccups.core :as h])
-  (:require [clojure.string :as str]
-            [goog.dom :as gdom]
-            [hiccups.runtime]
+  (:require [goog.dom :as gdom]
             [reveal.slides :as slides]
-            ["reveal" :as reveal]))
+            ["reveal" :as reveal]
+            [reagent.core :as r]))
 
 (defn highlight! []
   (.forEach (.querySelectorAll js/document "pre code")
@@ -31,13 +29,11 @@
              {:src "node_modules/reveal.js/plugin/notes/notes.js"
               :async true}]}))
 
-(defn convert [slides]
-  (str/join (map #(h/html %) slides)))
+(defn- render! []
+  (r/render (into [:<>] (slides/all))
+    (gdom/getElement "slides")))
 
-(defn ^:dev/after-load main!
-  "Get all slides, set them as innerHTML and reinitialize Reveal.js"
-  []
-  (set! (.. (gdom/getElement "slides") -innerHTML)
-        (convert (slides/all)))
+(defn ^:dev/after-load main! []
+  (render!)
   (reveal/initialize options)
   (highlight!))
