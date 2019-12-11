@@ -49,24 +49,22 @@
   [:h1.title "And we are " [:span.text-orange-500 "hiring!"]])
 
 (def plug
-  [(casper/transition-group
-    ["slide" "none" "slide"]
-    [welcome-1 welcome-2 welcome-3 welcome-4
-     beautiful hiring])])
+  [(casper/transition-group :none
+     [welcome-1 welcome-2 welcome-3 welcome-4
+      beautiful hiring])])
 
 (defslide mechanic
   {:slide/background-image "./img/mechanic.webp"
    :slide/layout :layout/none}
   nil)
 
-(defslide aldoc {:hide-logo? true}
+(defslide aldoc {}
   (img "./img/aldoc.png"))
 
-(defslide brightmotive {:hide-logo? true}
+(defslide brightmotive {:slide/layout :layout/blue}
   (img "./img/brightmotive.png"))
 
 (def brightmotive-intro
   [mechanic
-   (casper/transition-group
-    ["slide" "none" "slide"]
-    [aldoc brightmotive])])
+   (casper/transition-group :none
+     [aldoc brightmotive])])

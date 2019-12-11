@@ -33,7 +33,7 @@
   (into [:span]
         (for [s segments]
           (if (sequential? s)
-            [:span {:class (str "text-" (name (second s)))}
+            [:span.font-bold {:class (str "text-" (name (second s)))}
              (first s)]
             s))))
 
@@ -43,8 +43,11 @@
         (for [i items]
           [:li.fragment.fade-in i])))
 
-(defn transition-group [[in during out] [first & others]]
-  (let [middle (butlast others)
+(defn transition-group [transition-name [first & others]]
+  (let [[in during out] (map name (if (sequential? transition-name)
+                                    transition-name
+                                    [:slide transition-name :slide]))
+        middle (butlast others)
         end    (last others)]
     [(transition first (str in "-in " during "-out"))
      (map #(transition % during) middle)

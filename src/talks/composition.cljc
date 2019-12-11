@@ -21,6 +21,26 @@
    [:span.text-red-600 "Convention"]])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Rails
+
+(defslide used-to-be-rails {}
+  [:h1.title
+   (casper/colorize "We used to be a " ["Rails shop." :blue-500])])
+
+(defslide should-we-still-use-it {}
+  [:h1.title
+   (casper/colorize "Should we still " ["use it?" :red-500])])
+
+(defslide project-lifecycle {:slide/layout :layout/blue}
+  [:h1.title "TODO figma.jpg"])
+
+(def rails
+  (casper/transition-group :none
+    [used-to-be-rails
+     should-we-still-use-it
+     project-lifecycle]))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Composition
 
 (defslide composition-1 {}
@@ -43,10 +63,20 @@
 (defslide composition-3 {}
   [:div
    [:h1.title.mb-4 "Composition is powerful"]
-   (code :lang/clojure "
+   (code {:lang :lang/clojure
+          :class "w-128"} "
 (def accounts-report
   (comp account/summary user/all-accounts))
 ")
+   [:div
+    (casper/enumeration {:class "w-96"}
+      (casper/colorize ["def accounts-report" :orange-500] " is the "
+        ["composition" :blue-500])
+      (casper/colorize "of "
+        ["account/summary"   :red-500] " and "
+        ["user/all-accounts" :red-500])
+      (casper/colorize
+        "which are the " ["composable" :blue-500] " elements"))]
    [:aside.notes
     [:ul
      [:li "Notice how both functions don't know about eachother"]
@@ -54,9 +84,8 @@
       "via it's composable parts !!!! VERY IMPORTANT"]]]])
 
 (def composition
-  (casper/transition-group
-   ["slide" "none" "slide"]
-   [composition-1 xy-graph composition-2 composition-3]))
+  (casper/transition-group :none
+    [composition-1 xy-graph composition-2 composition-3]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Composition in music
@@ -93,32 +122,36 @@
 
    (c-v-a-title)
    (into
-    [casper/enumeration {:class "flex flex-col justify-around h-48"}]
-    (for [{:keys [title code-str]}
-          [{:title ["Composer" COMP_COLOR]
-            :code-str "
+     [casper/enumeration {:class "flex flex-col justify-around h-48"}]
+     (for [{:keys [title code-str]}
+           [{:title ["Composer" COMP_COLOR]
+             :code-str "
 (defn composer []
   (random-sample (range all-musical-ideas)))
 "}
-           {:title ["Arranger" ARR_COLOR]
-            :code-str "
+            {:title ["Arranger" ARR_COLOR]
+             :code-str "
 (defn arranger [composition]
   (apply make-song composition))
-"}]]
-      ^{:key (first title)}
-      [:div.flex.flex-wrap.items-center
-       [:h1.title.min-w-48 (casper/colorize title)]
-       (code {:lang :lang/clojure
-              :class "flex-grow"}
-             code-str)]))
+"}
+            {:title ["Make music" :black]
+             :code-str "
+(def make-music! (comp arranger composer))
+"
+             }]]
+       ^{:key (first title)}
+       [:div.flex.flex-wrap.items-center
+        [:h1.title.min-w-48 (casper/colorize title)]
+        (code {:lang :lang/clojure
+               :class "flex-grow"}
+          code-str)]))
    [:aside.notes
     "Again, notice that the composition is a list of many composable parts"]])
 
 (def composition-in-music
   [musician
    asylum
-   (casper/transition-group
-     ["slide" "none" "slide"]
+   (casper/transition-group :none
      [composer-v-arranger c-v-a-code-example])])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -147,8 +180,8 @@
        +----------+
 ")])
 
-(defslide hairball {:slide/background-image "./img/its_a_trap.gif"
-                    :slide/layout :layout/dark}
+(defslide its-a-trap {:slide/background-image "./img/its_a_trap.gif"
+                      :slide/layout :layout/dark}
   (code {:lang :lang/ruby :class "px-24"} "
 class MyHairball
   include HairballOne
@@ -157,22 +190,23 @@ end
 "))
 
 (def tower-of-composability
-  (casper/transition-group ["slide" "none" "slide"]
-    [apples-and-oranges the-tower hairball]))
+  (casper/transition-group :none
+    [apples-and-oranges the-tower its-a-trap]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Examples in the wild
 
 (def examples
-  (casper/transition-group ["slide" "zoom" "slide"]
+  (casper/transition-group :zoom
     (for [{:keys [name composable?]}
           [{:name "Compojure"}
-           {:name "Reitit" :composable? true}
-           {:name "Ring" :compostable? true}
-           {:name "Duct" :composable? true}
-           {:name "tailwind" :composable? true}
-           {:name "specql" :composable? false}
-           {:name "Fulcro RAD" :composable? true}
+           {:name "Reitit"        :composable? true}
+           {:name "Ring"          :composable? true}
+           {:name "Duct"          :composable? true}
+           {:name "tailwind"      :composable? true}
+           {:name "specql"        :composable? false}
+           {:name "Fulcro RAD"    :composable? true}
+           {:name "Boyscout"      :composable? true}
            {:name "These slides!" :composable? true}]]
       (let [[layout title-color] (if composable?
                                    [:layout/blue :white]
@@ -185,6 +219,12 @@ end
               (casper/colorize "👍" [" composable" title-color])
               (casper/colorize "👎" [" not" :white] [" composable" title-color]))]])))))
 
+(defslide duct-fender {}
+  [:h1.title "TODO: Fender"
+   [:aside.notes
+    "If the stars align and the elements compose, you can write "
+    "Rails and Administrate in under a 100 lines of Clojure"]])
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Arrangement
 
@@ -192,18 +232,20 @@ end
   [:h1.title (casper/colorize "Thanks!")])
 
 (defn slides
-  "Add here all slides you want to see in your presentation."
+  "A rendered list of slides"
   []
   (casper/render-slides
-   [title
-    brightin/plug
-    brightin/brightmotive-intro
-    composition
-    composition-in-music
-    tower-of-composability
-    examples
-    thanks]
-   {:layout/default layouts/logo-light
-    :layout/dark    layouts/logo-dark
-    :layout/blue    layouts/logo-blue
-    :layout/orange  layouts/logo-orange}))
+    [title
+     brightin/plug
+     brightin/brightmotive-intro
+     rails
+     composition
+     composition-in-music
+     tower-of-composability
+     examples
+     duct-fender
+     thanks]
+    {:layout/default layouts/logo-light
+     :layout/dark    layouts/logo-dark
+     :layout/blue    layouts/logo-blue
+     :layout/orange  layouts/logo-orange}))
