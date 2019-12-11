@@ -150,7 +150,6 @@
       "Success of music industry in terms of output!! We "
       "keep coming up with new songs."]
      [:li "Questions? No? We all understand composers?"]]]])
-;; TODO real book slide
 
 (defslide c-v-a-code-example {}
   [:<>
@@ -188,11 +187,24 @@
       "Again, notice that the composition is a list of many composable parts"]
      [:li "It would be trivial to compose different composers with different arrangers"]]]])
 
+(defslide real-book {}
+  [:<>
+   [:div.flex.max-w-3xl.mx-auto
+    [:div.my-auto.mr-32
+     [:h1.title.-mt-12
+      (casper/colorize "The " ["Real" :green-500] " Book")]]
+    [:img.w-96 {:src "./img/fly_me_to_the_moon_sheet.jpg"}]]
+   (casper/notes
+     ["Jazz vs Pop"
+      "Jazz musicians are great at arranging things on the fly"
+      "History of fake-books to real-book: 1975 students at Berklee made this"
+      "Because fake books are not trustworthy"])])
+
 (def composition-in-music
   [musician
    asylum
    (casper/transition-group :none
-     [composer-v-arranger c-v-a-code-example])])
+     [composer-v-arranger c-v-a-code-example real-book])])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Tower of composability
@@ -317,14 +329,23 @@ MyHairball.new.do_something
                   (reitit-code)]
     :notes ["You can merge routes"
             "You can auto-generate these"]}
-   {:name "Duct"          :composable? true}
+   {:name "Duct"
+    :composable? true}
    {:name "tailwind"
     :composable? true
     :enumeration [(tailwind-code)
                   [tailwind-card]]}
    {:name "specql"}
-   {:name "Fulcro RAD"    :composable? true}
-   {:name "Boyscout"      :composable? true}
+   {:name "Fulcro RAD"
+    :composable? true
+    :enumeration
+    [(casper/colorize ["Rapidly " :orange-500] "build " ["data-driven" :green-500]
+       " applications")
+     (casper/colorize "decrease " ["boilerplate" :red-500])
+     (casper/colorize "without " ["locking" :orange-500] " you in")]
+    :notes ["Every feature is meant to be helpful, but not required."]}
+   {:name "Boyscout"
+    :composable? true}
    {:name "These slides!" :composable? true}])
 
 (def examples
@@ -337,7 +358,7 @@ MyHairball.new.do_something
           [:<>
            [:h1.title (casper/colorize [name title-color])]
            (when enumeration
-             (into [casper/enumeration {}] enumeration))
+             (into [casper/enumeration {:class "text-center"}] enumeration))
            [:div.absolute.left-0.bottom-0.p-16
             (if composable?
               (casper/colorize "👍" [" composable" title-color])
