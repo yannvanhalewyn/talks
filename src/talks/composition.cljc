@@ -11,14 +11,18 @@
                                {:lang opts}
                                opts)]
     [:pre.text-left.mx-auto {:class class}
-     [:code.p-4 {:class (str (name lang) "p-4 rounded-lg")}
+     [:code.p-4 {:class (str (name lang) " p-4 rounded-lg")}
       (str/trim (str code))]]))
+
+(defn- video [src]
+  [:video.absolute.inset-0.h-full.w-full
+   {:controls true}
+   [:source {:data-src src}]])
 
 (defslide title {}
   [:h1.title
-   [:span.text-blue-600 "Composition"]
-   " over "
-   [:span.text-red-600 "Convention"]])
+   (casper/colorize
+     ["Composition" :blue-600] " over " ["Convention" :red-600])])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rails
@@ -38,19 +42,22 @@
     [:h2.text-lg.opacity-75 (casper/colorize "gem install " ["hairball" :red-500])]]
    [:img {:src "./img/rails_initial_commit.png"}]])
 
-(defslide project-lifecycle {:slide/layout :layout/blue}
-  [:<>
-   [:h1.title "TODO figma.jpg"]
-   [:aside.notes
-    "Statistical value of joy is higher in Rails ..."]])
+(defn project-lifecycle []
+  (for [i (range 4)]
+    (casper/make-slide {:slide/layout :layout/blue}
+      [:<>
+       [:img.mx-auto.w-96 {:src (str "./img/project_lifecycle_" i ".svg")}]
+       [:aside.notes
+        "Statistical value of joy is higher in Rails ..."]])))
 
 (def rails
   [(casper/transition-group :none
      [used-to-be-rails
       should-we-still-use-it])
    (casper/transition-group :none
-     [rails-initial-commit
-      project-lifecycle])])
+     (into
+       [rails-initial-commit]
+       (project-lifecycle)))])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Composition
@@ -67,18 +74,20 @@
     [:span.ml-8 "To Place"]]])
 
 (defslide xy-graph {}
-  [:span "TODO x-y graph"])
+  [:<>
+   [:h1.title.mb-6 "Composition is powerful"]
+   [:img.mx-auto {:src "./img/x_y_graph.png"}]])
 
-(defslide composition-2 {}
-  [:div
+(defslide can-drink? {}
+  [:<>
    [:h1.title.mb-4 "Composition is powerful"]
-   (code :lang/clojure "
+   (code {:class "w-96" :lang :lang/clojure} "
 (def can-drink?
   (comp #(>= % 21) :user/age))
 ")])
 
-(defslide composition-3 {}
-  [:div
+(defslide accounts-report {}
+  [:<>
    [:h1.title.mb-4 "Composition is powerful"]
    (code {:lang :lang/clojure
           :class "w-128"} "
@@ -88,7 +97,7 @@
 (accounts-report db)
 ")
    [:div
-    (casper/enumeration {:class "w-96"}
+    (casper/enumeration {:class "w-96 text-center"}
       (casper/colorize ["def accounts-report" :orange-500] " is the "
         ["composition" :blue-500])
       (casper/colorize "of "
@@ -105,7 +114,7 @@
 
 (def composition
   (casper/transition-group :none
-    [composition-title etymology xy-graph composition-2 composition-3]))
+    [composition-title etymology xy-graph can-drink? accounts-report]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Composition in music
@@ -116,9 +125,7 @@
 
 (defslide asylum {:slide/layout :layout/none
                   :slide/class "bg-black text-white"}
-  [:video.absolute.inset-0.h-full.w-full
-   {:controls true}
-   [:source {:data-src "./img/asylum_snippet.mp4"}]])
+  [video "./img/asylum_snippet.mp4"])
 
 (def COMP_COLOR :blue-500)
 (def ARR_COLOR :orange-500)
@@ -240,31 +247,107 @@ MyHairball.new.do_something
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Examples in the wild
 
+(defn ring-code []
+  (code :lang/clojure "
+(defn handler [req]
+  {:status 200 :body \"Hello world!\"})
+"))
+
+(defn compojure-code []
+  (code :lang/clojure "
+(defroutes app
+  (context \"/admin\"
+    (GET \"/users\" [] c.users/index)))
+"))
+
+(defn reitit-code []
+  (code :lang/clojure "
+(def routes
+  [\"/api\"
+   [\"/ping\" ::ping]
+   [\"/orders/:id\" ::order]])
+"))
+
+(def TW "")
+
+(defn tailwind-code []
+  (code {:lang :lang/clojure :class "text-xs"}  "
+(defn card []
+  [:div
+   [:div.bg-white.sm:max-w-full.max-w-md.rounded.overflow-hidden.shadow-lg
+    [:div.text-center.p-6.border-b
+     [:img.h-24.w-24.rounded-full.mx-auto
+      {:alt \"Randy Robertson\",
+       :src \"https://randomuser.me/api/portraits/men/22.jpg\"}]
+     [:p.pt-2.text-lg.font-semibold \"Randy Robertson\"]
+     [:p.text-sm.text-gray-600 \"randy.robertson@example.com\"]
+     [:div.mt-5
+      [:a.border.rounded-full.py-2.px-4.text-xs.font-semibold.text-gray-700
+       \"Manage your Google Account\"]]]]])
+"))
+
+(defn tailwind-card []
+  [:div.w-64.mx-auto {:style {:transform "scale(0.7)"}}
+   [:div.bg-white.sm:max-w-full.max-w-md.rounded.overflow-hidden.shadow-lg
+    [:div.text-center.p-6.border-b
+     [:img.h-24.w-24.rounded-full.mx-auto
+      {:alt "Randy Robertson",
+       :src "https://randomuser.me/api/portraits/men/22.jpg"}]
+     [:p.pt-2.text-lg.font-semibold "Randy Robertson"]
+     [:p.text-sm.text-gray-600 "randy.robertson@example.com"]
+     [:div.mt-5
+      [:a.border.rounded-full.py-2.px-4.text-xs.font-semibold.text-gray-700
+       "Manage your Google Account"]]]]])
+
+(def EXAMPLES
+  [{:name "Ring"
+    :composable? true
+    :enumeration [[:span.italic "It's just data"]
+                  (ring-code)]
+    :notes ["So good nobody uses anything else"
+            "Middleware stacks pretty well"]}
+   {:name "Compojure"
+    :enumeration [[:span.italic "Heavy use of macro's"]
+                  (compojure-code)]
+    :notes ["You can't merge routes"
+            "You can't auto-generate this easily"]}
+   {:name "Reitit"
+    :composable? true
+    :enumeration [[:span.italic "It's just data"]
+                  (reitit-code)]
+    :notes ["You can merge routes"
+            "You can auto-generate these"]}
+   {:name "Duct"          :composable? true}
+   {:name "tailwind"
+    :composable? true
+    :enumeration [(tailwind-code)
+                  [tailwind-card]]}
+   {:name "specql"}
+   {:name "Fulcro RAD"    :composable? true}
+   {:name "Boyscout"      :composable? true}
+   {:name "These slides!" :composable? true}])
+
 (def examples
-  (casper/transition-group :zoom
-    (for [{:keys [name composable?]}
-          [{:name "Compojure"}
-           {:name "Reitit"        :composable? true}
-           {:name "Ring"          :composable? true}
-           {:name "Duct"          :composable? true}
-           {:name "tailwind"      :composable? true}
-           {:name "specql"        :composable? false}
-           {:name "Fulcro RAD"    :composable? true}
-           {:name "Boyscout"      :composable? true}
-           {:name "These slides!" :composable? true}]]
+  (casper/transition-group :slide
+    (for [{:keys [name composable? enumeration notes]} EXAMPLES]
       (let [[layout title-color] (if composable?
                                    [:layout/blue :white]
                                    [:layout/orange :orange-200])]
         (casper/make-slide {:slide/layout layout}
           [:<>
            [:h1.title (casper/colorize [name title-color])]
-           [:div.absolute.left-0.bottom-5
+           (when enumeration
+             (into [casper/enumeration {}] enumeration))
+           [:div.absolute.left-0.bottom-0.p-16
             (if composable?
               (casper/colorize "👍" [" composable" title-color])
-              (casper/colorize "👎" [" not" :white] [" composable" title-color]))]])))))
+              (casper/colorize "👎" [" not" :white] [" composable" title-color]))]
+           (casper/notes notes)])))))
 
-(defslide duct-fender {}
-  [:h1.title "TODO: Fender"
+(defslide duct-fender {:slide/layout :layout/none
+                       :slide/class "bg-black text-white"}
+  [:<>
+   [video "./img/duct_fender_demo.mp4"]
    [:aside.notes
     "If the stars align and the elements compose, you can write "
     "Rails and Administrate in under a 100 lines of Clojure"]])
@@ -272,10 +355,11 @@ MyHairball.new.do_something
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Arrangement
 
-(defslide thanks {:slide/layout :layout/blue}
+(defslide thanks {:slide/layout :layout/dark
+                  :slide/background-image "./img/hands_many.jpg"}
   [:h1.title (casper/colorize "Thanks!")])
 
-(defn slides
+(defn make-presentation
   "A rendered list of slides"
   []
   (casper/render-slides

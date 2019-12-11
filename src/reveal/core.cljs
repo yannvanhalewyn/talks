@@ -30,7 +30,7 @@
               :async true}]}))
 
 (defn- render! []
-  (r/render (into [:<>] (composition/slides))
+  (r/render (into [:<>] (composition/make-presentation))
     (gdom/getElement "slides")))
 
 (defn ^:dev/after-load main! []

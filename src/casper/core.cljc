@@ -43,6 +43,14 @@
         (for [i items]
           [:li.fragment.fade-in i])))
 
+(defn notes [notes]
+  (when (seq notes)
+    [:aside.notes
+     [:ul
+      (for [note notes]
+        ^{:key note}
+        [:li note])]]))
+
 (defn transition-group [transition-name [first & others]]
   (let [[in during out] (map name (if (sequential? transition-name)
                                     transition-name
@@ -66,5 +74,5 @@
 
 #?(:clj
    (defmacro defslide [name slide body]
-     (let [slide (assoc slide :slide/key name)]
+     (let [slide (assoc slide :slide/key (str name))]
        `(def ~name ~(make-slide slide body)))))
