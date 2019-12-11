@@ -31,19 +31,32 @@
   [:h1.title
    (casper/colorize "Should we still " ["use it?" :red-500])])
 
+(defslide rails-initial-commit {:slide/layout :layout/none}
+  [:div.flex.max-w-3xl.mx-auto
+   [:div.my-auto.mr-32
+    [:h1.title.-mt-12 "Rails new"]
+    [:h2.text-lg.opacity-75 (casper/colorize "gem install " ["hairball" :red-500])]]
+   [:img {:src "./img/rails_initial_commit.png"}]])
+
 (defslide project-lifecycle {:slide/layout :layout/blue}
-  [:h1.title "TODO figma.jpg"])
+  [:<>
+   [:h1.title "TODO figma.jpg"]
+   [:aside.notes
+    "Statistical value of joy is higher in Rails ..."]])
 
 (def rails
-  (casper/transition-group :none
-    [used-to-be-rails
-     should-we-still-use-it
-     project-lifecycle]))
+  [(casper/transition-group :none
+     [used-to-be-rails
+      should-we-still-use-it])
+   (casper/transition-group :none
+     [rails-initial-commit
+      project-lifecycle])])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Composition
 
-(defslide composition-1 {}
+(defslide composition-1 {:slide/background-image "./img/hands.jpeg"
+                         :slide/layout :layout/dark}
   [:div
    [:h1.title "Com • poser"]
    [:p "To lay near"]
@@ -67,6 +80,8 @@
           :class "w-128"} "
 (def accounts-report
   (comp account/summary user/all-accounts))
+
+(accounts-report db)
 ")
    [:div
     (casper/enumeration {:class "w-96"}
@@ -81,7 +96,8 @@
     [:ul
      [:li "Notice how both functions don't know about eachother"]
      [:li "Notice that the `def` is the composition, and it is done "
-      "via it's composable parts !!!! VERY IMPORTANT"]]]])
+      "via it's composable parts !!!! VERY IMPORTANT"]
+     [:li "Don't think like 'how will they compose' but in 'can they compose'"]]]])
 
 (def composition
   (casper/transition-group :none
@@ -107,16 +123,24 @@
   [:h1.title (casper/colorize ["Composer" COMP_COLOR] " vs "
                               ["Arranger" ARR_COLOR])])
 
-(defslide composer-v-arranger {}
+(defslide composer-v-arranger {:slide/background-image "./img/music_sheet2.jpg"
+                               :slide/layout :layout/dark}
   [:<>
    (c-v-a-title)
    (casper/enumeration {:class "text-sm w-64 text-center"}
      (casper/colorize ["Composer" COMP_COLOR] " generates musical ideas")
      (casper/colorize ["Arranger" ARR_COLOR]  " assembles ideas into product")
      (casper/colorize "The " ["music    industry" :red-700] " acknowledges this")
-     (casper/colorize "The " ["software industry" :red-700] " doesn't"))])
+     (casper/colorize "The " ["software industry" :red-700] " doesn't"))
+   [:aside.notes
+    [:ul
+     [:li "Why some songs are harder to arrange than others"]
+     [:li
+      "Success of music industry in terms of output!! We "
+      "keep coming up with new songs."]
+     [:li "Questions? No? We all understand composers?"]]]])
+;; TODO real book slide
 
-;; TODO Ruby example
 (defslide c-v-a-code-example {}
   [:<>
 
@@ -137,6 +161,8 @@
             {:title ["Make music" :black]
              :code-str "
 (def make-music! (comp arranger composer))
+
+(make-music!) ;; => \"🎼 Let it be 🎵\"
 "
              }]]
        ^{:key (first title)}
@@ -146,7 +172,10 @@
                :class "flex-grow"}
           code-str)]))
    [:aside.notes
-    "Again, notice that the composition is a list of many composable parts"]])
+    [:ul
+     [:li
+      "Again, notice that the composition is a list of many composable parts"]
+     [:li "It would be trivial to compose different composers with different arrangers"]]]])
 
 (def composition-in-music
   [musician
@@ -178,16 +207,27 @@
     +--+--------+-+
        |   DATA   |
        +----------+
-")])
+")
+   [:aside.notes
+    [:ul
+     [:li "EDN!!! readers"]
+     [:li "Clojure knows how to push side-effects to the edge"]
+     [:li "We should push behavior more to the edges too"]]]])
 
 (defslide its-a-trap {:slide/background-image "./img/its_a_trap.gif"
                       :slide/layout :layout/dark}
-  (code {:lang :lang/ruby :class "px-24"} "
+  [:<>
+   (code {:lang :lang/ruby :class "px-24"} "
 class MyHairball
   include HairballOne
   include HairballTwo
 end
-"))
+
+MyHairball.new.do_something
+")
+   [:aside.notes
+    [:ul
+     [:li "Rails tries to compose using meta programming"]]]])
 
 (def tower-of-composability
   (casper/transition-group :none

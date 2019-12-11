@@ -38,7 +38,7 @@
             s))))
 
 (defn enumeration [{:keys [class]} & items]
-  (into [:ul.mx-auto.mt-8.text-left.text-gray-800
+  (into [:ul.mx-auto.mt-8.text-left
          {:class class}]
         (for [i items]
           [:li.fragment.fade-in i])))

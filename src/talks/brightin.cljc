@@ -8,8 +8,7 @@
 
 (defn- img [url]
   [:<>
-   [:img.my-auto.mx-auto {:src url}]
-   [:span.mt-8 "TODO center + brightmotive-logo"]])
+   [:img.my-auto.mx-auto {:src url}]])
 
 (defn- welcome [& children]
   [:div
@@ -53,6 +52,9 @@
      [welcome-1 welcome-2 welcome-3 welcome-4
       beautiful hiring])])
 
+(defslide brightmotive-logo {}
+  (img "./img/brightmotive_logo.png"))
+
 (defslide mechanic
   {:slide/background-image "./img/mechanic.webp"
    :slide/layout :layout/none}
@@ -62,9 +64,13 @@
   (img "./img/aldoc.png"))
 
 (defslide brightmotive {:slide/layout :layout/blue}
-  (img "./img/brightmotive.png"))
+  [:<>
+   (img "./img/brightmotive.png")
+   [:aside.notes
+    "Frank doesn't care if we used transducers or core.async"]])
 
 (def brightmotive-intro
-  [mechanic
+  [brightmotive-logo
+   mechanic
    (casper/transition-group :none
      [aldoc brightmotive])])
