@@ -4,25 +4,27 @@
 ;; Helpers
 
 (defn- transition [slide transition]
-  (assoc-in slide [:slide/section-props :data-transition] transition))
+  (assoc slide :slide/transition transition))
 
-(defn- make-slide* [{:keys [class background-image hide-logo?]} & body]
-  #:slide {:body (into [:div.text-center] body)
-           :hide-logo? hide-logo?
-           :section-props {:class class
-                           :data-background-image background-image}})
+(defn- empty-layout [body]
+  {::render body})
 
-(defn- render [{:slide/keys [body section-props hide-logo?]}]
-  #?(:cljs (.log js/console section-props))
-  [:section.flex.flex-col.justify-between.h-full.text-left
-   (merge {:style {:padding "10vmin"}} section-props)
-   (if hide-logo?
-     body
-     [:<>
-      [:strong "brightin"]
-      body
-      [:div.text-xs.text-right.italic
-       "Yann Vanhalewyn"]])])
+(defn- section-props [{:slide/keys [class
+                                    background-image
+                                    background-color
+                                    transition]}]
+  {:class class
+   :style {:padding "10vmin"}
+   :data-background-image background-image
+   :data-background-color (when-not background-image
+                            background-color)
+   :data-transition transition})
+
+(defn- render [slide layout]
+  (let [layout-result (layout (:slide/body slide))]
+    [:section.flex.flex-col.justify-between.h-full.text-left
+     (section-props (merge slide layout-result))
+     (::render layout-result)]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Public
@@ -47,12 +49,18 @@
      (map #(transition % during) middle)
      (transition end (str during "-in " out "-out"))]))
 
-(defn render-slides [slides]
+(defn render-slides [slides layouts]
   (for [slide (flatten slides)]
     ^{:keys (:slide/key slide)}
-    (render slide)))
+    (render slide
+      (get (assoc layouts :layout/none empty-layout)
+           (:slide/layout slide)
+           (:layout/default layouts)))))
+
+(defn make-slide [slide body]
+  (assoc slide :slide/body body))
 
 #?(:clj
-   (defmacro defslide [name opts & body]
-     (let [opts (assoc opts :slide/key name)]
-       `(def ~name ~(apply make-slide* opts body)))))
+   (defmacro defslide [name slide body]
+     (let [slide (assoc slide :slide/key name)]
+       `(def ~name ~(make-slide slide body)))))

@@ -45,7 +45,7 @@
     (casper/colorize "How it " ["is used" :red-600])
     (casper/colorize "How it " ["works"   :purple-600]))])
 
-(defslide hiring {:class "bg-blue-500 text-white"}
+(defslide hiring {::casper/layout :layout/blue}
   [:h1.title "And we are " [:span.text-orange-500 "hiring!"]])
 
 (def plug
@@ -55,8 +55,9 @@
      beautiful hiring])])
 
 (defslide mechanic
-  {:background-image "./img/mechanic.webp"
-   :hide-logo? true})
+  {:slide/background-image "./img/mechanic.webp"
+   :slide/layout :layout/none}
+  nil)
 
 (defslide aldoc {:hide-logo? true}
   (img "./img/aldoc.png"))
