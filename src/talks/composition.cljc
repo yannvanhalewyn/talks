@@ -55,12 +55,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Composition
 
-(defslide composition-1 {:slide/background-image "./img/hands.jpeg"
-                         :slide/layout :layout/dark}
-  [:div
-   [:h1.title "Com • poser"]
-   [:p "To lay near"]
-   [:p "TODO: flush out slide"]])
+(defslide composition-title {:slide/background-image "./img/hands.jpeg"
+                             :slide/layout :layout/dark}
+  [:h1.title "Composition"])
+
+(defslide etymology {}
+  [:<>
+   [:h1.title.text-blue-500 "Com • ponere"]
+   [:div.mx-48.mt-4.px-12.font-bold.text-gray-900
+    [:span "Near"]
+    [:span.ml-8 "To Place"]]])
 
 (defslide xy-graph {}
   [:span "TODO x-y graph"])
@@ -101,7 +105,7 @@
 
 (def composition
   (casper/transition-group :none
-    [composition-1 xy-graph composition-2 composition-3]))
+    [composition-title etymology xy-graph composition-2 composition-3]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Composition in music
