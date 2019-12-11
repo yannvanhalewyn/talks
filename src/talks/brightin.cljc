@@ -32,7 +32,7 @@
 
 (defslide welcome-4 {}
   (welcome
-   [:p (casper/colorize "we make " ["peope" :blue-600] " happy ")]
+   [:p (casper/colorize "we make " ["people" :blue-600] " happy ")]
    [:p.mt-1 (casper/colorize "with " ["beautiful" :orange-600] " software")]))
 
 (defslide beautiful {}
@@ -40,12 +40,12 @@
    [:h1.title.italic.font-serif.text-blue-500
     "B-e-a-utiful"]
    [:p.mt-1.text-gray-700.font-bold "Meaning"]
-   (casper/enumeration
-    (casper/colorize "How it " ["looks"   :blue-600])
-    (casper/colorize "How it " ["is used" :red-600])
-    (casper/colorize "How it " ["works"   :purple-600]))])
+   (casper/enumeration {:class "w-32"}
+     (casper/colorize "How it " ["looks"   :blue-600])
+     (casper/colorize "How it " ["is used" :red-600])
+     (casper/colorize "How it " ["works"   :purple-600]))])
 
-(defslide hiring {::casper/layout :layout/blue}
+(defslide hiring {:slide/layout :layout/blue}
   [:h1.title "And we are " [:span.text-orange-500 "hiring!"]])
 
 (def plug

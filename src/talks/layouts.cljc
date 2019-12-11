@@ -3,21 +3,22 @@
 
 (defn- logo-layout [{:keys [body class]}]
   [:<>
-   [:strong "brightin"]
-   [:div.text-center {:class class}
+   [:strong.text-left "brightin"]
+   [:div {:class class}
     body]
    [:div.text-xs.text-right.italic
     "Yann Vanhalewyn"]])
 
 (defn logo-light [body]
   {:slide/background-color "white"
+   :slide/class "text-center"
    ::casper/render (logo-layout {:body body})})
 
 (defn logo-dark [body]
   {:slide/background-color "#3F3F3F"
-   :slide/class "text-white"
+   :slide/class "text-center text-white text-shadow-md"
    ::casper/render (logo-layout {:body body})})
 
 (defn logo-blue [body]
-  {:slide/class "bg-blue-500 text-blue-800"
+  {:slide/class "text-center bg-blue-500 text-blue-800"
    ::casper/render (logo-layout {:body body :class "text-white"})})
