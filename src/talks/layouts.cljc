@@ -22,3 +22,7 @@
 (defn logo-blue [body]
   {:slide/class "text-center bg-blue-500 text-blue-800"
    ::casper/render (logo-layout {:body body :class "text-white"})})
+
+(defn logo-orange [body]
+  {:slide/class "text-center bg-orange-500 text-orange-800"
+   ::casper/render (logo-layout {:body body :class "text-white"})})

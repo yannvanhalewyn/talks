@@ -62,6 +62,7 @@
 **** Classes / inheritance
 
      Ruby example
+
 ** Examples in the wild
 *** Compojure vs Reitit
 **** Brightmotive routes
@@ -97,14 +98,16 @@
     blokken:
 
 
-    #+BEGIN_SRC ascii
-       +---------+
-       | Objects |
-       +---------+------+
-           | Functions  |
-           +--+---------+-+
-              |   DATA    |
-              +-----------+
+    #+BEGIN_SRC artist
+      +---------+
+      | Macro's |
+      +-+-------+-+
+        | Classes |
+        +-+-------+---+
+          | Functions |
+          +--+--------+-+
+             |   DATA   |
+             +----------+
     #+END_SRC
 
        Objecten zijn inherently on-composebaar Functies kan je

@@ -81,7 +81,7 @@
 (defslide composer-v-arranger {}
   [:<>
    (c-v-a-title)
-   (casper/enumeration {:class "text-sm w-64"}
+   (casper/enumeration {:class "text-sm w-64 text-center"}
      (casper/colorize ["Composer" COMP_COLOR] " generates musical ideas")
      (casper/colorize ["Arranger" ARR_COLOR]  " assembles ideas into product")
      (casper/colorize "The " ["music    industry" :red-700] " acknowledges this")
@@ -118,11 +118,34 @@
   [musician
    asylum
    (casper/transition-group
-    ["slide" "none" "slide"]
-    [composer-v-arranger c-v-a-code-example])])
+     ["slide" "none" "slide"]
+     [composer-v-arranger c-v-a-code-example])])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Tower of composability
+
+(defn- apples-oranges-title []
+  (casper/colorize
+   "Let's compare " ["apples" :green-500] " to " ["oranges" :orange-500]))
+
+(defslide apples-and-oranges {:slide/layout :layout/dark}
+  [:h1.title (apples-oranges-title)])
+
+(defslide the-tower {}
+  [:<>
+   [:h1.title (apples-oranges-title)]
+   (code {:lang :ascii
+          :class "mt-6 w-56"} "
++---------+
+| Macro's |
++-+-------+-+
+  | Classes |
+  +-+-------+---+
+    | Functions |
+    +--+--------+-+
+       |   DATA   |
+       +----------+
+")])
 
 (defslide hairball {:slide/background-image "./img/its_a_trap.gif"
                     :slide/layout :layout/dark}
@@ -133,6 +156,38 @@ class MyHairball
 end
 "))
 
+(def tower-of-composability
+  (casper/transition-group ["slide" "none" "slide"]
+    [apples-and-oranges the-tower hairball]))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Examples in the wild
+
+(def examples
+  (casper/transition-group ["slide" "zoom" "slide"]
+    (for [{:keys [name composable?]}
+          [{:name "Compojure"}
+           {:name "Reitit" :composable? true}
+           {:name "Ring" :compostable? true}
+           {:name "Duct" :composable? true}
+           {:name "tailwind" :composable? true}
+           {:name "specql" :composable? false}
+           {:name "Fulcro RAD" :composable? true}
+           {:name "These slides!" :composable? true}]]
+      (let [[layout title-color] (if composable?
+                                   [:layout/blue :white]
+                                   [:layout/orange :orange-200])]
+        (casper/make-slide {:slide/layout layout}
+          [:<>
+           [:h1.title (casper/colorize [name title-color])]
+           [:div.absolute.left-0.bottom-5
+            (if composable?
+              (casper/colorize "👍" [" composable" title-color])
+              (casper/colorize "👎" [" not" :white] [" composable" title-color]))]])))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Arrangement
+
 (defslide thanks {:slide/layout :layout/blue}
   [:h1.title (casper/colorize "Thanks!")])
 
@@ -140,15 +195,15 @@ end
   "Add here all slides you want to see in your presentation."
   []
   (casper/render-slides
-   [
-    title
+   [title
     brightin/plug
     brightin/brightmotive-intro
     composition
-    hairball
     composition-in-music
-    thanks
-    ]
+    tower-of-composability
+    examples
+    thanks]
    {:layout/default layouts/logo-light
     :layout/dark    layouts/logo-dark
-    :layout/blue    layouts/logo-blue}))
+    :layout/blue    layouts/logo-blue
+    :layout/orange  layouts/logo-orange}))
